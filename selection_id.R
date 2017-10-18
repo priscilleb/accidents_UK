@@ -6,3 +6,6 @@ selection_id <- function(weather,road,light, region){
 }
 
 selection_id("Fine without high winds","Dry","Darkness: Street lights present and lit","North West")
+
+
+

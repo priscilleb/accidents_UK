@@ -3,7 +3,5 @@ draw_with_conditions <- function(weather,road,light){
     group_by(Day_of_Week) %>% summarise(count=n()) %>% ggplot(aes(x=Day_of_Week,y=count))+geom_col()
 }
 
-
-
 #draw_with_conditions("Fine without high winds","Dry","Darkness: Street lights present and lit")
 

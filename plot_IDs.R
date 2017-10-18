@@ -32,6 +32,6 @@ plot_IDs <- function(dataset,IDs){
 }
 
 #example 
-test <- dataset %>% head() %>%  select(Accident_Index) %>% pull()
-plot_IDs(dataset, test)
+# test <- dataset %>% head() %>%  select(Accident_Index) %>% pull()
+# plot_IDs(dataset, test)
 #leaflet(data = data) %>% addTiles()%>% addMarkers(data$Longitude, data$Latitude, label = as.character(data$Accident_Severity))

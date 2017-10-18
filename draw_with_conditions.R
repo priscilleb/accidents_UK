@@ -5,4 +5,5 @@ draw_with_conditions <- function(weather,road,light){
 
 
 
-draw_with_conditions("Fine without high winds","Dry","Darkness: Street lights present and lit")
+#draw_with_conditions("Fine without high winds","Dry","Darkness: Street lights present and lit")
+

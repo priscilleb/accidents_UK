@@ -31,12 +31,7 @@ plot_IDs <- function(dataset,IDs){
     addAwesomeMarkers(~Longitude, ~Latitude, icon=icons, label= ~paste("Casualties :", as.character(Number_of_Casualties)), clusterOptions = markerClusterOptions())
 }
 
-# dataset %>% head(100) %>% leaflet() %>% addTiles() %>% addMarkers(~Longitude, ~Latitude, label= paste("Casualties :",~as.character(Number_of_Casualties)), clusterOptions = markerClusterOptions()
-# )
-
 #example 
-test <- dataset %>%  select(Accident_Index) %>% pull()
-data <- dataset %>% 
-  filter(Accident_Index %in% test)
+test <- dataset %>% head() %>%  select(Accident_Index) %>% pull()
 plot_IDs(dataset, test)
 #leaflet(data = data) %>% addTiles()%>% addMarkers(data$Longitude, data$Latitude, label = as.character(data$Accident_Severity))

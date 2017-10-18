@@ -23,13 +23,11 @@ ui <- fluidPage(
   # Application title
   #leafletOutput("mymap"),
   # Sidebar with a slider input for number of bins 
-  #sidebarLayout(
-    #sidebarPanel(
   absolutePanel(top = 10, right = 10, 
-      selectInput(inputId="weather",label = "Choose the weather condition :",choices = unique(dataset$Weather_Conditions)),
-      selectInput(inputId="road",label = "Choose the road condition:",choices = unique(dataset$Road_Surface_Conditions)),
-      selectInput(inputId="light",label = "Choose the light condition:",choices = unique(dataset$Light_Conditions)),
-      selectInput(inputId="district",label = "Choose the district:",choices = unique(dataset$Local_Authority_.District.)),
+      selectInput(inputId="weather",label = "Choose the weather condition :",choices = unique(d1$Weather_Conditions)),
+      selectInput(inputId="road",label = "Choose the road condition:",choices = unique(d1$Road_Surface_Conditions)),
+      selectInput(inputId="light",label = "Choose the light condition:",choices = unique(d1$Light_Conditions)),
+      selectInput(inputId="region",label = "Choose the region:",choices = unique(d1$Region)),
       actionButton("go", "New points"), draggable = TRUE
       )
   )
@@ -38,10 +36,9 @@ ui <- fluidPage(
 server <- function(input, output) {
   
   points <- eventReactive(input$go, {
-     selection_id(input$weather,input$road,input$light,input$district)
+     selection_id(input$weather,input$road,input$light,input$region)
    })
-
-  output$mymap <- renderLeaflet({plot_IDs(dataset,points())})
+  output$mymap <- renderLeaflet({plot_IDs(d1,points())})
 }
 
 # Run the application 

@@ -11,6 +11,7 @@ library(shiny)
 library(utils)
 library(dplyr)
 library(tidyverse)
+library(leaflet)
 #dataset <- read.csv("/Users/PriscilleBoissonnet/Documents/R_info/projet/dataset/accidents_2012_to_2014.csv")
 
 # Define UI for application that draws a histogram

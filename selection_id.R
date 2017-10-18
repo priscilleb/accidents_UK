@@ -1,6 +1,6 @@
-selection_id <- function(weather,road,light){
+selection_id <- function(weather,road,light, region){
   return(dataset %>% 
-           filter(Weather_Conditions==weather,Road_Surface_Conditions==road,Light_Conditions==light) %>%
+           filter(Weather_Conditions==weather,Road_Surface_Conditions==road,Light_Conditions==light,Region==region) %>%
            pull(Accident_Index))
 }
 

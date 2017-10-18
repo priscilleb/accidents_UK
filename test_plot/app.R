@@ -12,19 +12,14 @@ library(utils)
 library(dplyr)
 library(tidyverse)
 library(leaflet)
-library(RColorBrewer)
 #dataset <- read.csv("/Users/PriscilleBoissonnet/Documents/R_info/projet/dataset/accidents_2012_to_2014.csv")
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
-  #tags$style(type = "text/css", "html, body {width:100%;height:100%}"),
-  titlePanel("Accidents in the UK"),
-  leafletOutput("mymap", width = "100%", height = 800),
   # Application title
-  #leafletOutput("mymap"),
+  titlePanel("Accidents in UK"),
+  leafletOutput("mymap"),
   # Sidebar with a slider input for number of bins 
-  #sidebarLayout(
-    #sidebarPanel(
   absolutePanel(top = 10, right = 10, 
       selectInput(inputId="weather",label = "Choose the weather condition :",choices = unique(d1$Weather_Conditions)),
       selectInput(inputId="road",label = "Choose the road condition:",choices = unique(d1$Road_Surface_Conditions)),
@@ -40,8 +35,8 @@ server <- function(input, output) {
   points <- eventReactive(input$go, {
      selection_id(input$weather,input$road,input$light,input$region)
    })
-
   output$mymap <- renderLeaflet({plot_IDs(dataset,points())})
+
 }
 
 # Run the application 

@@ -5,4 +5,5 @@ selection_id <- function(weather,road,light, region){
            pull(Accident_Index))
 }
 
-#selection_id("Fine without high winds","Dry","Darkness: Street lights present and lit")
+length(selection_id("Fine without high winds","Dry","Darkness: Street lights present and lit")
+

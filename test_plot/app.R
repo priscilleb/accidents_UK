@@ -38,7 +38,7 @@ server <- function(input, output) {
   points <- eventReactive(input$go, {
      selection_id(input$weather,input$road,input$light,input$region)
    })
-  output$mymap <- renderLeaflet({plot_IDs(d1,points())})
+  output$mymap <- renderLeaflet({plot_IDs(dataset,points())})
 }
 
 # Run the application 

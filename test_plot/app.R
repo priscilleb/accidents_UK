@@ -7,13 +7,13 @@
 #    http://shiny.rstudio.com/
 #
 
+install.packages("leaflet")
 library(shiny)
 library(utils)
 library(dplyr)
 library(tidyverse)
 library(leaflet)
 library(RColorBrewer)
-#dataset <- read.csv("/Users/PriscilleBoissonnet/Documents/R_info/projet/dataset/accidents_2012_to_2014.csv")
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(

@@ -5,7 +5,7 @@ library(ggplot2)
 dataset <- read.csv("accidents_2012_to_2014.csv")
 
 #On selectionne seulement les attributs qui nous intéressent et on réarrange les formats
-d1 <- dataset %>% select("Accident_Index","Road_Surface_Conditions","Weather_Conditions","Light_Conditions","Day_of_Week","Local_Authority_.District.","Longitude","Latitude")
+d1 <- dataset %>% select("Accident_Index","Road_Surface_Conditions","Weather_Conditions","Light_Conditions","Day_of_Week","Local_Authority_.District.","Longitude","Latitude","Number_of_Vehicles","Number_of_Casualties")
 d1$Day_of_Week <- as.factor(d1$Day_of_Week)
 levels(d1$Day_of_Week) <- c("Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche")
 d1 <- d1 %>% rename("District"= Local_Authority_.District.)

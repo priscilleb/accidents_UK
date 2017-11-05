@@ -2,7 +2,7 @@
 title: "Projet R - Rapport"
 output: html_notebook
 ---
-
+##### Charlotte Caucheteux & Priscille Boissonnet
 ```{r setup, include = FALSE}
 library(knitr)
 knitr::opts_chunk$set(echo = FALSE, eval = TRUE, message = FALSE)
@@ -14,6 +14,7 @@ Pour ce projet, nous voulions utiliser la cartographie et avons choisi de travai
 ## La base de données _Accidents in the UK_
 
 Cette base de données recense l'ensemble des accidents de la route en Grande-Bretagne, et fournit leur localisation (latitude/longitude) ainsi que des informations sur les conditions dans lesquelles s'est produit l'accident (par exemple les conditions météo, le nombre de blessés ou le nombre de voitures impliquées, cf ci-dessous).
+Nous avons sélectionné l'ensemble des observations pour les années 2012 à 2014.
  
 ```{r, echo = FALSE}
 head(dataset)
@@ -22,9 +23,8 @@ head(dataset)
 
 
 ** A FAIRE optionnel ** 
-
 année, intérêt 
-Remarques sur la base : les champs majoritaires (ploter les champs les plus signifiatif)
+Remarques sur la base : les champs majoritaires (ploter les champs les plus signifiatif) : pourquoi pas utiliser la fonction draw_with_conditions?
 
 
 ## Objectif 
@@ -33,62 +33,82 @@ Remarques sur la base : les champs majoritaires (ploter les champs les plus sign
 
 **Idée d'application** : un utilisateur désire prendre sa voiture, il entre les critères qui correspondent à sa situation (localisation, météo etc), et peut visualiser le nombre et la gravité des accidents s'étant produits dans ces conditions. 
 
-## Prétraitement et traitement
-
-#### Organisation du code et fonctions utilisées  
+## Organisation du code et fonctions utilisées  
 
 Le code est organisé en 4 blocks :
 
 * _**Prétraitement de la base**_ : `data_manip`
-* _**Sélection des IDs en fonction du choix des utilisateurs**_ : `draw_with_conditions` et `selection_IDs`
-* _**Catrographie des IDs sélectionnés**_ : `plot_ID`.  La fonction prend en input les IDs des accidents retenus par l'utilisateurs et génère la carte leaflet représentant ces accidents (avec leur localsiation, gravité etc.).
+* _**Sélection des IDs en fonction des conditions renseignées**_ :  `selection_IDs`
+* _**Cartographie des IDs sélectionnés**_ : `plot_ID`.  La fonction prend en input les IDs des accidents retenus par l'utilisateurs et génère la carte leaflet représentant ces accidents (avec leur localsiation, gravité etc.).
 * _**Application**_ : `app`
 
-** A FAIRE ** 
 
-#### Prétraitement : sélection des champs utiles pour le choix utilisateurs 
+## Prétraitement de la base
+#### Sélection des champs utiles pour le choix des utilisateurs 
 
-Nous avons choisi comme champs certaines conditions dans lesquelles s'étaient produits les accidents.
-
-```{r, echo = FALSE}
-anti_join(data_frame(champs_delaisses = names(dataset)), data_frame(champs_delaisses = names(d1)), by = "champs_delaisses")
-```
-
-
+Nous avons d'abord créer une base de données plus simple à manipuler en sélectionnant seulement les attributs qui nous étaient utiles.
+Pour cela, nous avons choisi les champs qui permettent de décrire l'accident ainsi que les conditions dans lesquelles il a eu lieu.
 
 ```{r, echo = FALSE}
-d_prov <- dataset %>% select("Accident_Index","Road_Surface_Conditions","Weather_Conditions","Light_Conditions","Day_of_Week","Local_Authority_.District.")
+d_prov <- dataset %>% select("Accident_Index","Road_Surface_Conditions","Weather_Conditions","Light_Conditions","Day_of_Week","Local_Authority_.District.","Number_of_Vehicles","Number_of_Casualties","Longitude","Latitude")
 
 champs_retenus = names(d_prov)
 print(data_frame(champs_retenus))
 ```
 
-* _**`Accident_Index`**_	: l'ID de l'accident (nécessaire ensuite pour cartographier les accidents sélectionnés et leurs coordonnées)			
-* _**`Road_Surface_Conditions`**_	: les conditions de la route		
-* _**`Weather_Conditions`**_	: 	les conditions météo 
-* _**`Light_Conditions`**_	: la luminosité 
-* _**`Day_of_Week`**_				
-* _**`Local_Authority_.District.`**_	: district de l'accident. Ce champ sera prétraité (il y a trop de districts, il faut les utiliser des régions plus grandes et plus intuitives). 
-
-_**Remarque**_ : d'autres champs sont pris en compte **pour la visualisation** (nombre de blessés, nombre de voitures impliquées etc), mais ne seront pas proposés aux utilisateurs. 
+```{r, echo = FALSE}
+anti_join(data_frame(champs_delaisses = names(dataset)), data_frame(champs_delaisses = names(d1)), by = "champs_delaisses")
+```
 
 #### Pré-traitement du champ `Local_Authority_.District.`: utilisation d'une base de donnée annexe 
 
-** AFAIRE** 
+Nous avons prétraité le champ `Local_Authority_.District.` au profit de l'utilisation de régions plus grandes et plus intuitives. Ceci facilite donc l'utilisation pour l'utilisateur et permet de rajouter un filtre supplémentaire pour accélérer l'affichage des résultatss.
+Ainsi, nous avons traité une deuxième base de données qui relie à chaque district sa région. 
+**Mettre le lien de la base de données**
+Grâce à des fonctions de jointure, nous avons donc, pû faire attribuer à chaque accident sa région.
+
+**A quoi correspondent ces chiffres?**
+```{r}
+d1 %>% select(Region) %>% unique()
+```
+
 
 #### Pré-traitement des autres champs retenus (_data_manip_)
 
-** A FAIRE : AS_FACTOR ETC ** 
+Par ailleurs, nous avons arrangé le format des données, comme en renommant les jours de la semaine.
 
-```{r, echo = FALSE}
-summary(d1)
+Ainsi, à la fin, nous obtenons deux types de données : celles que devra renseigner l'utilisateur sur les conditions de l'accident et celles qui nous servent pour la visualition mais qui ne seront pas proposés à l'utilisateur.
+
+#### Les champs proposés à l'utilisateur
+	
+* _**`Road_Surface_Conditions`**_	: les conditions de la route		
+* _**`Weather_Conditions`**_	: 	les conditions météo 
+* _**`Light_Conditions`**_	: la luminosité 
+* _**`Region`**_	: région de l'accident. 
+
+
+**Mettre la liste des conditions joliment**
+```{r}
+d1 %>% select(Road_Surface_Conditions) %>% unique()
 ```
 
-#### Traitement 
 
-* _**Sélection des IDs en fonction du choix des utilisateurs**_ : `draw_with_conditions` et `selection_IDs`
-* _**Catrographie des IDs sélectionnés**_ : `plot_ID`.  La fonction prend en input les IDs des accidents retenus par l'utilisateurs et génère la carte leaflet représentant ces accidents (avec leur localsiation, gravité etc.).
-* _**Application**_ : `app`
+#### Les champs pour la visualisation 
+
+* _**`Accident_Index`**_	: l'ID de l'accident (nécessaire ensuite pour cartographier les accidents sélectionnés et leurs coordonnées)			
+* _**`Longitude`**_	: les conditions de la route		
+* _**`Latitude`**_	: 	les conditions météo 
+* _**`Number_of_Vehicles`**_	: la luminosité 
+* _**`Number_of_Casualties`**_				
+* _**`Day_of_week`**_	: région de l'accident. 
+
+
+
+## Traitement 
+
+* _**Sélection des IDs en fonction du choix des utilisateurs**_ :  `selection_IDs`
+* _**Cartographie des IDs sélectionnés**_ : `plot_ID`.  La fonction prend en input les IDs des accidents retenus par l'utilisateurs et génère la carte leaflet représentant ces accidents (avec leur localsiation, gravité etc.).
+* _**Application**_ : `app` : application shiny qui permet d'afficher la carte en fonction des données fournies par l'utilisateur.
 
 ## L’application et ses fonctionnalités 
 
@@ -96,19 +116,19 @@ summary(d1)
 
 L'utilisateur sélectionne les conditions des accidents qu'il veut visualiser dans des menus déroulant, puis rafraîchit en cliquant sur "New Points" pour les faire appraître. 
 
-Pourquoi un bouton déclencheur ? Il serait trop lent de rafraîchir la page à chaque fois que l'utilisateur modifie un champ. 
+Pourquoi un bouton déclencheur ? Il serait trop lent de rafraîchir la page à chaque fois que l'utilisateur modifie un champ. Ainsi, nous utilisons une fonction EventReactive
 
 #### La couleur et les pops up des pointeurs 
 
 Les accidents sont représentés par d'abord _**par cluster**_, puis individuellement si l'utilisateur zoom. 
-Le choix du cluster vient du fait qu'il y a beaucoup d'accidents, la carte est illsisible sinon.
+Le choix du cluster vient du fait qu'il y a beaucoup d'accidents, la carte est illisible sinon.
 
 La couleur du pointeur (orange, jaune ou verte) est d'abord _**en fonction du nombre d’accidents dans un environnement proche**_ (de l'importance du cluster). Si l'utilisateur zoom, et que les accidents apparaissent individuellement, la couleur du pointeur dépend du _**nombre de voitures impliquées dans l'accident**_ (mesure de gravité). 
 
 Si l'utilisateur pointe sur un accident, un pop up indiquant _**le nombre de blessés**_ (autre mesure de gravité) apparaît. 
 
 #### Remarques 
-* la bare de recherche peut se déplacer  
+* la barre de recherche peut se déplacer  
 * le zoom itinial s'ajuste automatiquement pour éviter la représentation de zones non significatives (sans accidents), et la carte est centrée sur les accidents à plotter
 
 ## Difficultés rencontrées et limites de l'application 
@@ -120,6 +140,4 @@ Le chargement est trop lent et est du au nombre de points à cartographier. Pour
 
 _**`leafletOutput`**_ ne contient pas de champ par défaut (contrairement aux plots standards). Nous ne sommes pas parvenus à charger une carte par défaut. L'utilisateur doit nécessairement cliquer une fois sur "New points" pour charger la première carte. 
 
-#### Les régions 
 
-** A FAIRE ** 

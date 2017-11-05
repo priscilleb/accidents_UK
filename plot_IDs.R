@@ -6,6 +6,7 @@ plot_IDs <- function(dataset,IDs){
   data <- dataset %>% 
     filter(Accident_Index %in% IDs)
   
+  
   #deal with colors
   getColor <- function(data) {
     sapply(data$Number_of_Vehicles, function(Number_of_Vehicles) {
@@ -34,3 +35,8 @@ plot_IDs <- function(dataset,IDs){
 #example 
 # test <- dataset %>% head() %>%  select(Accident_Index) %>% pull()
 # plot_IDs(dataset, test)
+
+
+### Regarde je pense que le problème vient d'ici :  le count ressort zéro
+I <- selection_id("Fine without high winds","Dry","Darkness: Street lights present and lit","North West")
+dataset %>% filter(Accident_Index %in% I) %>% summarise(count=n())

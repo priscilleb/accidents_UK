@@ -18,7 +18,7 @@ Pour ce projet, nous voulions utiliser la cartographie et avons choisi de travai
 Cette base de données recense l'ensemble des accidents de la route en Grande-Bretagne, et fournit leur localisation (latitude/longitude) ainsi que des informations sur les conditions dans lesquelles s'est produit l'accident (par exemple les conditions météo, le nombre de blessés ou le nombre de voitures impliquées, cf ci-dessous).
 Nous avons sélectionné l'ensemble des observations pour les années 2012 à 2014.
  
-```{r, echo = FALSE}
+```{r, echo = FALSE, eval = TRUE}
 head(dataset)
 #summary(dataset)
 ```
@@ -46,14 +46,14 @@ Le code est organisé en 4 blocks :
 Nous avons d'abord créer une base de données plus simple à manipuler en sélectionnant seulement les attributs qui nous étaient utiles.
 Pour cela, nous avons choisi les champs qui permettent de décrire l'accident ainsi que les conditions dans lesquelles il a eu lieu.
 
-```{r, echo = FALSE}
+```{r, echo = FALSE,  eval = TRUE}
 d_prov <- dataset %>% select("Accident_Index","Road_Surface_Conditions","Weather_Conditions","Light_Conditions","Day_of_Week","Local_Authority_.District.","Number_of_Vehicles","Number_of_Casualties","Longitude","Latitude")
 
 champs_retenus = names(d_prov)
 print(data_frame(champs_retenus))
 ```
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, eval = TRUE}
 anti_join(data_frame(champs_delaisses = names(dataset)), data_frame(champs_delaisses = names(d1)), by = "champs_delaisses")
 ```
 
@@ -66,7 +66,7 @@ Grâce à des fonctions de jointure, nous avons donc, pû faire attribuer à cha
 Néanmoins, les deux bases de données ne correspondent pas parfaitement (cf limites du projet).
 
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, eval = TRUE}
 d1 %>% select(Region) %>% unique
 ```
 
@@ -86,13 +86,10 @@ Ainsi, à la fin, nous obtenons deux types de données : celles que devra rensei
 
 
 
-```{r,echo = FALSE}
+```{r,echo = FALSE, eval = TRUE}
 d1 %>% select(Road_Surface_Conditions) %>% unique()
 d1 %>% select(Weather_Conditions) %>% unique()
 d1 %>% select(Light_Conditions) %>% unique()
-
-
-
 ```
 
 

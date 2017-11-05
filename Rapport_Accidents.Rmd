@@ -1,12 +1,11 @@
 ---
 title: "Projet R - Rapport"
-output: html_notebook
+output:
+  html_document:
+    df_print: paged
 ---
 ##### Charlotte Caucheteux & Priscille Boissonnet
-```{r setup, include = FALSE}
-library(knitr)
-knitr::opts_chunk$set(echo = FALSE, eval = TRUE, message = FALSE)
-```
+
 
 
 Pour ce projet, nous voulions utiliser la cartographie et avons choisi de travailler sur la base de données Kaggle [lien](https://www.kaggle.com/daveianhickey/2000-16-traffic-flow-england-scotland-wales/data).
@@ -20,7 +19,6 @@ Nous avons sélectionné l'ensemble des observations pour les années 2012 à 20
  
 ```{r, echo = FALSE, eval = TRUE}
 head(dataset)
-#summary(dataset)
 ```
 
 
@@ -53,7 +51,7 @@ champs_retenus = names(d_prov)
 print(data_frame(champs_retenus))
 ```
 
-```{r, echo = FALSE, eval = TRUE}
+```{r,echo = FALSE, eval = TRUE}
 anti_join(data_frame(champs_delaisses = names(dataset)), data_frame(champs_delaisses = names(d1)), by = "champs_delaisses")
 ```
 
@@ -154,5 +152,5 @@ Lorsque la carte apparait, l'ensemble des points ne sont pas concentrés dans un
 #### Code 
 
 Il faut runner tous les fichiers pour pouvoir lancer l'application shiny. Peut-être faudrait-il créer un fichier "main" qu'il suffit de lancer et qui run l'ensemble des fonctions du projet et lance l'app. 
-
+De plus, pour le notebook, il faut runner à la main tous les chunks en R, pour qu'ils s'affichent.
 

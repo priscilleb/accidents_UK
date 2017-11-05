@@ -5,11 +5,4 @@ draw_with_conditions <- function(weather,road,light,region){
   d1 %>% filter(Weather_Conditions==weather,Road_Surface_Conditions==road,Light_Conditions==light, Region==region) %>% 
     group_by(Day_of_Week) %>% summarise(count=n()) %>% ggplot(aes(x=Day_of_Week,y=count))+geom_col()
 }
-<<<<<<< HEAD
 
-draw_with_conditions("Fine without high winds","Dry","Darkness: Street lights present and lit","North West")
-
-
-
-=======
->>>>>>> 32decca3c57cb4d7875897105fe8b5dee31d14e6

@@ -8,11 +8,9 @@ library(knitr)
 knitr::opts_chunk$set(echo = FALSE, eval = TRUE, message = FALSE)
 ```
 
-<<<<<<< HEAD
-Pour ce projet, nous voulions utiliser la cartographie et avons choisi de travailler sur la base de données Kaggle [https://www.kaggle.com/daveianhickey/2000-16-traffic-flow-england-scotland-wales](_Accidents in the UK_).
-=======
+
 Pour ce projet, nous voulions utiliser la cartographie et avons choisi de travailler sur la base de données Kaggle [lien](https://www.kaggle.com/daveianhickey/2000-16-traffic-flow-england-scotland-wales/data).
->>>>>>> a4747b3bda973306f1b4e2728959bd19467fe3b5
+
 
 
 ## La base de données _Accidents in the UK_

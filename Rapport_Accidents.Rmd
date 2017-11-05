@@ -8,7 +8,7 @@ library(knitr)
 knitr::opts_chunk$set(echo = FALSE, eval = TRUE, message = FALSE)
 ```
 
-Pour ce projet, nous voulions utiliser la cartographie et avons choisi de travailler sur la base de données Kaggle [http](_Accidents in the UK_).
+Pour ce projet, nous voulions utiliser la cartographie et avons choisi de travailler sur la base de données Kaggle [https://www.kaggle.com/daveianhickey/2000-16-traffic-flow-england-scotland-wales](_Accidents in the UK_).
 
 
 ## La base de données _Accidents in the UK_
@@ -20,11 +20,6 @@ Nous avons sélectionné l'ensemble des observations pour les années 2012 à 20
 head(dataset)
 #summary(dataset)
 ```
-
-
-** A FAIRE optionnel ** 
-année, intérêt 
-Remarques sur la base : les champs majoritaires (ploter les champs les plus signifiatif) : pourquoi pas utiliser la fonction draw_with_conditions?
 
 
 ## Objectif 
@@ -139,5 +134,9 @@ Le chargement est trop lent et est du au nombre de points à cartographier. Pour
 #### Avoir une carte par défaut, sans avoir à raffraichir la page la première fois 
 
 _**`leafletOutput`**_ ne contient pas de champ par défaut (contrairement aux plots standards). Nous ne sommes pas parvenus à charger une carte par défaut. L'utilisateur doit nécessairement cliquer une fois sur "New points" pour charger la première carte. 
+
+#### Code 
+
+Il faut runner tous les fichiers pour pouvoir lancer l'application shiny. Peut-être faudrait-il créer un fichier "main" qu'il suffit de lancer et qui run l'ensemble des fonctions du projet et lance l'app. 
 
 

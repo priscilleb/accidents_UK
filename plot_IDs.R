@@ -1,11 +1,7 @@
 library(tidyr)
 library(leaflet)
 
-plot_IDs <- function(dataset,IDs){
-  #select the good IDs
-  data <- dataset %>% 
-    filter(Accident_Index %in% IDs)
-  
+plot_IDs <- function(data){
   
   #deal with colors
   getColor <- function(data) {
@@ -32,11 +28,4 @@ plot_IDs <- function(dataset,IDs){
     addAwesomeMarkers(~Longitude, ~Latitude, icon=icons, label= ~paste("Casualties :", as.character(Number_of_Casualties)), clusterOptions = markerClusterOptions())
 }
 
-#example 
-# test <- dataset %>% head() %>%  select(Accident_Index) %>% pull()
-# plot_IDs(dataset, test)
 
-
-### Regarde je pense que le problème vient d'ici :  le count ressort zéro
-I <- selection_id("Fine without high winds","Dry","Darkness: Street lights present and lit","North West")
-dataset %>% filter(Accident_Index %in% I) %>% summarise(count=n())

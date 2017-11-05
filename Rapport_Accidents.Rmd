@@ -8,7 +8,11 @@ library(knitr)
 knitr::opts_chunk$set(echo = FALSE, eval = TRUE, message = FALSE)
 ```
 
+<<<<<<< HEAD
 Pour ce projet, nous voulions utiliser la cartographie et avons choisi de travailler sur la base de données Kaggle [https://www.kaggle.com/daveianhickey/2000-16-traffic-flow-england-scotland-wales](_Accidents in the UK_).
+=======
+Pour ce projet, nous voulions utiliser la cartographie et avons choisi de travailler sur la base de données Kaggle [lien](https://www.kaggle.com/daveianhickey/2000-16-traffic-flow-england-scotland-wales/data).
+>>>>>>> a4747b3bda973306f1b4e2728959bd19467fe3b5
 
 
 ## La base de données _Accidents in the UK_
@@ -57,14 +61,15 @@ anti_join(data_frame(champs_delaisses = names(dataset)), data_frame(champs_delai
 
 #### Pré-traitement du champ `Local_Authority_.District.`: utilisation d'une base de donnée annexe 
 
-Nous avons prétraité le champ `Local_Authority_.District.` au profit de l'utilisation de régions plus grandes et plus intuitives. Ceci facilite donc l'utilisation pour l'utilisateur et permet de rajouter un filtre supplémentaire pour accélérer l'affichage des résultatss.
+Nous avons prétraité le champ `Local_Authority_.District.` au profit de l'utilisation de régions plus grandes et plus intuitives. Ceci facilite donc l'utilisation pour l'utilisateur et permet de rajouter un filtre supplémentaire pour accélérer l'affichage des résultats.
 Ainsi, nous avons traité une deuxième base de données qui relie à chaque district sa région. 
-**Mettre le lien de la base de données**
+[Base de données](http://geoportal.statistics.gov.uk/datasets/46d0cf00f75e4e4d8f5703c1cee283da_0)
 Grâce à des fonctions de jointure, nous avons donc, pû faire attribuer à chaque accident sa région.
+Néanmoins, les deux bases de données ne correspondent pas parfaitement (cf limites du projet).
 
-**A quoi correspondent ces chiffres?**
-```{r}
-d1 %>% select(Region) %>% unique()
+
+```{r, echo = FALSE}
+d1 %>% select(Region) %>% unique
 ```
 
 
@@ -82,9 +87,14 @@ Ainsi, à la fin, nous obtenons deux types de données : celles que devra rensei
 * _**`Region`**_	: région de l'accident. 
 
 
-**Mettre la liste des conditions joliment**
-```{r}
+
+```{r,echo = FALSE}
 d1 %>% select(Road_Surface_Conditions) %>% unique()
+d1 %>% select(Weather_Conditions) %>% unique()
+d1 %>% select(Light_Conditions) %>% unique()
+
+
+
 ```
 
 
@@ -101,15 +111,17 @@ d1 %>% select(Road_Surface_Conditions) %>% unique()
 
 ## Traitement 
 
-* _**Sélection des IDs en fonction du choix des utilisateurs**_ :  `selection_IDs`
-* _**Cartographie des IDs sélectionnés**_ : `plot_ID`.  La fonction prend en input les IDs des accidents retenus par l'utilisateurs et génère la carte leaflet représentant ces accidents (avec leur localsiation, gravité etc.).
+* _**Filtrage de la dataframe en fonction du choix des utilisateurs**_ :  `selection_IDs`: renvoie la dataframe des accidents dont les champs correspondent aux critères renseignés
+* _**Cartographie des accidents sélectionnés**_ : `plot_ID`.  La fonction prend en input la dataframe des accidents retenus par l'utilisateurs et génère la carte leaflet représentant ces accidents (avec leur localisation, gravité etc.).
 * _**Application**_ : `app` : application shiny qui permet d'afficher la carte en fonction des données fournies par l'utilisateur.
+
+**Remarque** : les fonctions utilisées ont un titre avec IDs, car initialement nous passions par les IDs et non la dataframe.
 
 ## L’application et ses fonctionnalités 
 
 #### Les choix de l'utilisateur
 
-L'utilisateur sélectionne les conditions des accidents qu'il veut visualiser dans des menus déroulant, puis rafraîchit en cliquant sur "New Points" pour les faire appraître. 
+L'utilisateur sélectionne les conditions des accidents qu'il veut visualiser dans des menus déroulants, puis rafraîchit en cliquant sur "Map the accidents" pour les faire apparaître. 
 
 Pourquoi un bouton déclencheur ? Il serait trop lent de rafraîchir la page à chaque fois que l'utilisateur modifie un champ. Ainsi, nous utilisons une fonction EventReactive
 
@@ -122,6 +134,10 @@ La couleur du pointeur (orange, jaune ou verte) est d'abord _**en fonction du no
 
 Si l'utilisateur pointe sur un accident, un pop up indiquant _**le nombre de blessés**_ (autre mesure de gravité) apparaît. 
 
+#### Fonctions complémentaires
+
+En dessous du choix des utilisateurs, s'affichent un graphique de la répartition des accidents en fonction des jours de la semaine, ainsi qu'un calcul du pourcentage d'accidents qui remplissent les conditions renseignées.
+
 #### Remarques 
 * la barre de recherche peut se déplacer  
 * le zoom itinial s'ajuste automatiquement pour éviter la représentation de zones non significatives (sans accidents), et la carte est centrée sur les accidents à plotter
@@ -129,11 +145,16 @@ Si l'utilisateur pointe sur un accident, un pop up indiquant _**le nombre de ble
 ## Difficultés rencontrées et limites de l'application 
 #### Le temps de chargement 
 
-Le chargement est trop lent et est du au nombre de points à cartographier. Pour réduire ce temps de chargement, nous avons assayer de rajouter des critères (par exemple le nom de la région), pour que le nombre de point à placer soit raisonnable. Néanmoins, le temps de chargement reste relativement long lorque que le bouton "New points" est activé.  
+Pour réduire le temps de chargement initialement lent (plusieurs milliers de points à cartographier), nous avons rajouté des critères (par exemple le nom de la région), afin que le nombre de points à placer soit raisonnable.   
 
-#### Avoir une carte par défaut, sans avoir à raffraichir la page la première fois 
+#### Avoir une carte par défaut, sans avoir à rafraichir la page la première fois 
 
-_**`leafletOutput`**_ ne contient pas de champ par défaut (contrairement aux plots standards). Nous ne sommes pas parvenus à charger une carte par défaut. L'utilisateur doit nécessairement cliquer une fois sur "New points" pour charger la première carte. 
+_**`leafletOutput`**_ ne contient pas de champ par défaut (contrairement aux plots standards). Nous ne sommes pas parvenus à charger une carte par défaut. L'utilisateur doit nécessairement cliquer une fois sur "Map the accidents" pour charger la première carte. 
+
+#### Exactitude des régions
+
+Lorsque la carte apparait, l'ensemble des points ne sont pas concentrés dans une région. Ceci vient du fait que les districs des deux databases ne correspondent pas complètement.
+
 
 #### Code 
 
